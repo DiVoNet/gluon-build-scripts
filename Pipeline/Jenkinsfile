@@ -3,7 +3,6 @@ pipeline {
 
     environment{
         REPO_GLUON = "https://github.com/freifunk-gluon/gluon.git"
-        REPO_SITE = "https://github.com/divonet/site-multidomain.git"
 
         DIR_SCRIPTS = "scrpt"
         DATE = sh(returnStdout: true, script: "date '+%Y%m%d-%H%M'").trim()
@@ -35,9 +34,9 @@ pipeline {
 
                 echo "Checking out site config, always update from git"
                 dir("gluon/site"){
-                    sh "git clone ${REPO_SITE} -b ${VPN}-${BRANCH} . || true"
+                    sh "git clone ${REPO_SITE} -b ${BRANCH} . || true"
                     sh "git fetch --all || true"
-                    sh "git reset --hard origin/${VPN}-${BRANCH} || true"
+                    sh "git reset --hard origin/${BRANCH} || true"
                     sh "git pull || true"
                 }
             }
