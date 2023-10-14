@@ -78,13 +78,12 @@ pipeline {
                         FAILEDTARGETS=\"\"
                         make update -j12
 
-			divonet_targets="ath79-generic ramips-mt7621 ramips-mt76x8 ramips-mt7620 ipq40xx-generic lantiq-xrx200 lantiq-xway mediatek-mt7622 mpc85xx-p1010"
                         TARGETCONFIG=${TARGETCONFIG}
                         if [ ! -z \"$TARGETCONFIG\" ]
                         then
                             make GLUON_TARGET=\$TARGETCONFIG GLUON_RELEASE=${GLUON_VERSION}-${VPN}${REMOTE_MAINTENANCE}-${BUILD_NUMBER} GLUON_AUTOUPDATER_BRANCH=${BRANCH} GLUON_AUTOUPDATER_ENABLED=1 DEFAULT_GLUON_RELEASE=${GLUON_VERSION}${DATE}${REMOTE_MAINTENANCE} GLUON_DEPRECATED=${GLUON_DEPRECATED} ${DEBUGBUILDPARAM} || FAILEDTARGETS=\"\$FAILEDTARGETS\$TARGETCONFIG, \"
                         else
-                            for TARGET in $divonet_targets; do
+                            for TARGET in \$(make list-targets); do
                                 make GLUON_TARGET=\$TARGET GLUON_RELEASE=${GLUON_VERSION}-${VPN}${REMOTE_MAINTENANCE}-${BUILD_NUMBER} GLUON_AUTOUPDATER_BRANCH=${BRANCH} GLUON_AUTOUPDATER_ENABLED=1 DEFAULT_GLUON_RELEASE=${GLUON_VERSION}${DATE}${REMOTE_MAINTENANCE} GLUON_DEPRECATED=${GLUON_DEPRECATED} ${DEBUGBUILDPARAM} || FAILEDTARGETS=\"\$FAILEDTARGETS\$TARGET, \"
                             done
                         fi
